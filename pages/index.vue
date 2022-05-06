@@ -23,7 +23,7 @@
       <div class="section__body md:w-full md:max-w-screen-lg">
         <!-- Table header -->
         <div class="section__header bg-black lg:px-24 md:px-12 pt-4 sm:pt-6 md:pt-8 lg:pt-12">
-          <TableHeader />
+          <TableHeader @onSortClick="loadAppData($event)" />
         </div>
 
         <!-- Table content list -->
@@ -57,15 +57,7 @@ export default {
   },
 
   async fetch () {
-    await getAllCards().then((response: Card[]) => {
-      // Success
-      this.isFetchError = false
-      this.cardsList = [...response]
-    }).catch(() => {
-      // Failure
-      this.isFetchError = true
-      this.cardsList = []
-    })
+    await this.loadAppData()
   },
 
   fetchDelay: 1000,
@@ -85,6 +77,21 @@ export default {
           content: 'sports, players, stremaing, games, fifa'
         }
       ]
+    }
+  },
+
+  methods: {
+    async loadAppData (field?: string) {
+      console.log('field2: ', field)
+      await getAllCards(field).then((response: Card[]) => {
+        // Success
+        this.isFetchError = false
+        this.cardsList = [...response]
+      }).catch(() => {
+        // Failure
+        this.isFetchError = true
+        this.cardsList = []
+      })
     }
   }
 }
