@@ -82,7 +82,6 @@ export default {
 
   methods: {
     async loadAppData (field?: string) {
-      console.log('field2: ', field)
       await getAllCards(field).then((response: Card[]) => {
         // Success
         this.isFetchError = false
