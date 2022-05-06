@@ -11,8 +11,19 @@ const client = sanityClient({
 
 const builder = imageUrlBuilder(client)
 
-export async function getAllCards () {
-  return await client.fetch('*[_type == "fifaCard"]')
+let clickCount = 0
+let order = 'asc'
+let query = '*[_type == "fifaCard"]'
+
+export async function getAllCards (field?: string) {
+  clickCount = clickCount === 0 ? 1 : 0
+  order = clickCount === 0 ? 'asc' : 'desc'
+
+  if (field) {
+    query = `*[_type == "fifaCard"] | order(${field} ${order})`
+  }
+
+  return await client.fetch(query)
 }
 
 export async function getSingleCard (id: string) {
